@@ -1,1 +1,3 @@
-# this is the main password generator code
+#main file that generates all codes
+
+import random
