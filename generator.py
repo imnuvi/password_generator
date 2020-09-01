@@ -12,7 +12,7 @@ f_type = args[1]
 # give length of password to be created as second argument
 code_len = int(args[2])
 
-filename = "wordlist_" + f_type + ".txt"
+filename = "./dictionaries/wordlist_" + f_type + ".txt"
 lst = []
 
 def roller():
