@@ -6,7 +6,7 @@ import re
 args = sys.argv
 
 #dictionary to use, ("1","2","3") change variable to whatever you want if you have specific language requirements
-# 1 and 2 are actually pretty small words but are slightly unintelligible. use 3 if you want to remember words
+# 2 and 3 are actually pretty small words but are slightly unintelligible. use 1 if you want to remember words
 f_type = args[1]
 
 # give length of password to be created as second argument
