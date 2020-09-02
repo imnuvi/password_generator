@@ -9,7 +9,7 @@ args = sys.argv
 
 f_type = args[1]
 code_len = int(args[2])
-
+hasher = "hi"
 
 def gen_password(f_type,code_len):
 	#f_type is the dictionary to use, ("1","2","3") change variable to whatever you want if you have specific language requirements
@@ -47,21 +47,29 @@ def gen_password(f_type,code_len):
 
 # this adds the password to the codes file
 if os.path.exists("./password.codes"):
-	print(" generated code is \n")
-	code = gen_password(f_type,code_len)
-	with open("./password.codes","a+") as code_file:
-		code_file.seek(0)
-		data = code_file.read(100)
-		if len(data) > 0:
-			code_file.write("/n")
-		code_file.write(code)
-	print("\n "+code)
-	print("\n code has been added to password.codes file, and wont be available without master password")
-
+	ye = 1
+	while ye:
+		passer = str(input("enter your main password to continue.."))
+		if passer == hasher:
+			ye = 0
+			print(" generated code is \n")
+			code = gen_password(f_type,code_len)
+			with open("./password.codes","a+") as code_file:
+				code_file.seek(0)
+				data = code_file.read(100)
+				if len(data) > 0:
+					code_file.write("/n")
+				code_file.write(code)
+			print("\n "+code)
+			print("\n code has been added to password.codes file, and wont be available without master password")
+		else:
+			print("sorry wrong password, try again")
+			continue
 
 #this is to create the master.key and the password.codes file anew
 else:
 	open("password.codes","w+")
 	code = gen_password(f_type,code_len)
 	print(code)
-	print("This is the master password, Remember this because without this all your passwords are lost and unretrievable")
+	print("Since this is the first time you are running this generator"+"This is the master password, Remember this because without this all your passwords are lost and unretrievable")
+	print("\n from now on you will need to type your password to generate and encode them")
