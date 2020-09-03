@@ -1,11 +1,16 @@
 #main file that generates all codes
 
+import encoder
+
 import random
 import sys
 import os
 import re
 import base64, hashlib
+import getpass
 from cryptography.fernet import Fernet
+from hashlib import blake2b
+
 args = sys.argv
 
 f_type = args[1]
@@ -48,21 +53,29 @@ def gen_password(f_type,code_len):
 
 # this adds the password to the codes file
 if os.path.exists("./password.codes"):
+	passer = open("master.key","r").read()
 	ye = 1
 	while ye:
-		passer = str(input("enter your main password to continue.."))
+		h = blake2b()
+		entered_pass = getpass.getpass(prompt="please enter your main password: ")
+		by = bytes(entered_pass,"utf-8")
+		h.update(by)
+		hasher = h.hexdigest()
+		# passer = str(input("enter your main password to continue.."))
 		if passer == hasher:
 			ye = 0
 			print(" generated code is \n")
 			code = gen_password(f_type,code_len)
+			cypher_code = (encoder.encoded(entered_pass,code))
+			cypher_code = cypher_code.decode("utf-8")
 			with open("./password.codes","a+") as code_file:
 				code_file.seek(0)
 				data = code_file.read(100)
 				if len(data) > 0:
-					code_file.write("/n")
-				code_file.write(code)
+					code_file.write("\n")
+				code_file.write(cypher_code)
 			print("\n "+code)
-			print("\n code has been added to password.codes file, and wont be available without master password")
+			print("\n the cypher of code has been added to password.codes file, and won't be available without master password")
 		else:
 			print("sorry wrong password, try again")
 			continue
@@ -71,6 +84,11 @@ if os.path.exists("./password.codes"):
 else:
 	open("password.codes","w+")
 	code = gen_password(f_type,code_len)
+	h = blake2b()
+	by = bytes(code,"utf-8")
+	h.update(by)
+	with open("master.key","w+") as key:
+		key.write(h.hexdigest())
 	print(code)
 	print("Since this is the first time you are running this generator"+"This is the master password, Remember this because without this all your passwords are lost and unretrievable")
 	print("\n from now on you will need to type your password to generate and encode them")
