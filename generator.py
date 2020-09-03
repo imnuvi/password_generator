@@ -4,6 +4,7 @@ import random
 import sys
 import os
 import re
+import base64, hashlib
 from cryptography.fernet import Fernet
 args = sys.argv
 
