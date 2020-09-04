@@ -2,6 +2,7 @@
 
 import encoder
 
+import binascii
 import random
 import sys
 import os
