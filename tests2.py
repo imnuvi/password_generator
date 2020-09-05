@@ -38,6 +38,11 @@ def decrypt(s, p):
     c = Crypt(p)
     return c.decrypt(s)
 
+msg = (b" trapezoidviewablecavalier")
+secret_key = b"derived"
+x = encrypt(msg,secret_key)
+y = decrypt(x,secret_key)
+print(len(x),y)
 
 # msg = (b"hello loo there thereeeeeeee")
 # msg1 = (b"whatthefuckisgoinon")

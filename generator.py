@@ -69,9 +69,9 @@ if os.path.exists("./password.codes"):
 			code = gen_password(f_type,code_len)
 			cypher_code = (tests2.encrypt(bytes(code,"utf-8"),by))
 			# cypher_code = cypher_code.decode("utf-8")
-			with open("./password.len","w+") as len_file:
-				len_file.write(len(cypher_code))
-			with open("./password.codes","w+b") as code_file:
+			with open("./password.len","a+") as len_file:
+				len_file.write(str(len(cypher_code)) + "\n")
+			with open("./password.codes","a+b") as code_file:
 				code_file.write(cypher_code)
 			print("\n "+code)
 			print("\n the cypher of code has been added to password.codes file, and won't be available without master password")
