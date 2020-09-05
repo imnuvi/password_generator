@@ -1,6 +1,6 @@
 #main file that generates all codes
 
-import encoder
+import tests2
 
 import binascii
 import random
@@ -67,13 +67,11 @@ if os.path.exists("./password.codes"):
 			ye = 0
 			print(" generated code is \n")
 			code = gen_password(f_type,code_len)
-			cypher_code = (encoder.encoded(entered_pass,code))
-			cypher_code = cypher_code.decode("utf-8")
-			with open("./password.codes","a+") as code_file:
-				code_file.seek(0)
-				data = code_file.read(100)
-				if len(data) > 0:
-					code_file.write("\n")
+			cypher_code = (tests2.encrypt(bytes(code,"utf-8"),by))
+			# cypher_code = cypher_code.decode("utf-8")
+			with open("./password.len","w+") as len_file:
+				len_file.write(len(cypher_code))
+			with open("./password.codes","w+b") as code_file:
 				code_file.write(cypher_code)
 			print("\n "+code)
 			print("\n the cypher of code has been added to password.codes file, and won't be available without master password")

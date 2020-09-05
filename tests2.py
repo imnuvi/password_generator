@@ -39,10 +39,18 @@ def decrypt(s, p):
     return c.decrypt(s)
 
 
-msg = (b"hello loo there")
-print(msg)
-secret_key = b"keykeykey"
-
-x = encrypt(msg,secret_key)
-y = decrypt(x,secret_key)
-print(x,y)
+# msg = (b"hello loo there thereeeeeeee")
+# msg1 = (b"whatthefuckisgoinon")
+# msg3 = (b"WhattheAtualF")
+# print(msg)
+# secret_key = b"keykeykey"
+#
+# x = encrypt(msg,secret_key)
+# y = decrypt(x,secret_key)
+# x1 = encrypt(msg1,secret_key)
+# x2 =  encrypt(msg3,secret_key)
+# y1 = decrypt(x1,secret_key)
+# y2 = decrypt(x2,secret_key)
+# print(len(x),y)
+# print(len(x1),y1)
+# print(len(x2),y2)
