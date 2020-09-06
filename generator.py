@@ -53,7 +53,7 @@ def gen_password(f_type,code_len):
 
 # this adds the password to the codes file
 if os.path.exists("./secure/password.codes"):
-	passer = open("master.key","r").read()
+	passer = open("./secure/master.key","r").read()
 	ye = 1
 	while ye:
 		h = blake2b()

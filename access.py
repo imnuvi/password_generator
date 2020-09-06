@@ -11,11 +11,11 @@ with open("./secure/password.len","r") as l:
 with open("./secure/password.codes","rb") as f:
     v = 0
     data = f.read()
-    print(len(data))
+    # print(len(data))
     for i in range(len(thelen)):
         # print(v)
         byt = data[v:v+int(thelen[i].strip("\n"))]
-        print(v,int(thelen[i].strip("\n")))
+        # print(v,int(thelen[i].strip("\n")))
         print(encoder.decrypt(byt,bytes(a,"utf-8")))
         v = int(thelen[i].strip("\n"))
         # print(v)
