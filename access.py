@@ -1,25 +1,22 @@
-import getpass
+import struct
 import encoder
-import binascii
+import getpass
 
-password = getpass.getpass(prompt="enter your password")
-
-
-print("\n\n\n")
-with open("password.codes","r") as p_file:
-	lst = p_file.readlines()
-
-for i in lst:
-	print(i,type(i))
-	z = i.encode("utf-8")
-	print(encoder.decoded("pointy",z))
-
-# a = binascii.a2b_qp("hello")
-# print(type(a))
-# b = binascii.b2a_qp(a)
-# print(type(b))\
+a = getpass.getpass(prompt="enter your password")
 
 
-# with open("password.codes","r") as p_file:
-# 	a = p_file.read()
-# 	print(a)
+with open("./secure/password.len","r") as l:
+    thelen = l.readlines()
+
+with open("./secure/password.codes","rb") as f:
+    v = 0
+    data = f.read()
+    print(len(data))
+    for i in range(len(thelen)):
+        # print(v)
+        byt = data[v:v+int(thelen[i].strip("\n"))]
+        print(v,int(thelen[i].strip("\n")))
+        print(encoder.decrypt(byt,bytes(a,"utf-8")))
+        v = int(thelen[i].strip("\n"))
+        # print(v)
+

@@ -1,6 +1,6 @@
 #main file that generates all codes
 
-import tests2
+import encoder
 
 import binascii
 import random
@@ -9,7 +9,6 @@ import os
 import re
 import base64, hashlib
 import getpass
-from cryptography.fernet import Fernet
 from hashlib import blake2b
 
 args = sys.argv
@@ -53,7 +52,7 @@ def gen_password(f_type,code_len):
 
 
 # this adds the password to the codes file
-if os.path.exists("./password.codes"):
+if os.path.exists("./secure/password.codes"):
 	passer = open("master.key","r").read()
 	ye = 1
 	while ye:
@@ -67,11 +66,11 @@ if os.path.exists("./password.codes"):
 			ye = 0
 			print(" generated code is \n")
 			code = gen_password(f_type,code_len)
-			cypher_code = (tests2.encrypt(bytes(code,"utf-8"),by))
+			cypher_code = (encoder.encrypt(bytes(code,"utf-8"),by))
 			# cypher_code = cypher_code.decode("utf-8")
-			with open("./password.len","a+") as len_file:
+			with open("./secure/password.len","a+") as len_file:
 				len_file.write(str(len(cypher_code)) + "\n")
-			with open("./password.codes","a+b") as code_file:
+			with open("./secure/password.codes","a+b") as code_file:
 				code_file.write(cypher_code)
 			print("\n "+code)
 			print("\n the cypher of code has been added to password.codes file, and won't be available without master password")
@@ -81,12 +80,12 @@ if os.path.exists("./password.codes"):
 
 #this is to create the master.key and the password.codes file anew
 else:
-	open("password.codes","w+")
+	open("./secure/password.codes","w+")
 	code = gen_password(f_type,code_len)
 	h = blake2b()
 	by = bytes(code,"utf-8")
 	h.update(by)
-	with open("master.key","w+") as key:
+	with open("./secure/master.key","w+") as key:
 		key.write(h.hexdigest())
 	print(code)
 	print("Since this is the first time you are running this generator"+"This is the master password, Remember this because without this all your passwords are lost and unretrievable")

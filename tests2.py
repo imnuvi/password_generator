@@ -1,61 +1,51 @@
-#encoding with symmetric key testing
-
+from hashlib import blake2b
 import base64
-import struct
-from Crypto.Cipher import AES
+import secrets
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes as hsh
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
-def pad16(s):
-    t = struct.pack('>I', len(s)) + s
-    return t + b'\x00' * ((16 - len(t) % 16) % 16)
+def encoded(pwd, msg):
+    a = bytes(pwd, "utf-8")
+    salt = b'\xb0\x15\xc9\xa5:\x19\xe7\x14\x97\xc4\x86 \xfc\xe9\x9d\xb7'
+    # print(salt)
+    kdf = PBKDF2HMAC(algorithm=hsh.SHA256(), length=32, salt=salt, iterations=0)
+
+    v = kdf.derive(a)
+    key = base64.urlsafe_b64encode(v)
+
+    # print(key,"\n")
+    msg = bytes(msg, "utf-8")
+
+    cipher = Fernet(key).encrypt(msg)
+
+    return cipher
 
 
-def unpad16(s):
-    n = struct.unpack('>I', s[:4])[0]
-    return s[4:n + 4]
+def decoded(pwd, msg):
+    a = pwd
+    a = bytes(a, "utf-8")
+    salt = b'\xb0\x15\xc9\xa5:\x19\xe7\x14\x97\xc4\x86 \xfc\xe9\x9d\xb7'
+    # print(salt)
 
+    kdf = PBKDF2HMAC(algorithm=hsh.SHA256(), length=32, salt=salt, iterations=0)
 
-class Crypt(object):
-    def __init__(self, password):
-        password = pad16(password)
-        self.cipher = AES.new(password, AES.MODE_ECB)
+    v = kdf.derive(a)
+    key = base64.urlsafe_b64encode(v)
 
-    def encrypt(self, s):
-        s = pad16(s)
-        return self.cipher.encrypt(s)
+    # print(cipher,"\n")
 
-    def decrypt(self, s):
-        t = self.cipher.decrypt(s)
-        return unpad16(t)
+    decypher = Fernet(key).decrypt(msg)
 
+    return decypher
 
-def encrypt(s, p):
-    c = Crypt(p)
-    return c.encrypt(s)
-
-
-def decrypt(s, p):
-    c = Crypt(p)
-    return c.decrypt(s)
-
-msg = (b" trapezoidviewablecavalier")
-secret_key = b"derived"
-x = encrypt(msg,secret_key)
-y = decrypt(x,secret_key)
-print(len(x),y)
-
-# msg = (b"hello loo there thereeeeeeee")
-# msg1 = (b"whatthefuckisgoinon")
-# msg3 = (b"WhattheAtualF")
-# print(msg)
-# secret_key = b"keykeykey"
-#
-# x = encrypt(msg,secret_key)
-# y = decrypt(x,secret_key)
-# x1 = encrypt(msg1,secret_key)
-# x2 =  encrypt(msg3,secret_key)
-# y1 = decrypt(x1,secret_key)
-# y2 = decrypt(x2,secret_key)
-# print(len(x),y)
-# print(len(x1),y1)
-# print(len(x2),y2)
+# vals = encoded("hi","hello there")
+# print(vals)
+# phi = (vals).decode("utf-8")
+# print(phi)
+# print(phi.encode("utf-8"))
+# vals = str(vals)
+# print(repr(vals))
+# ans = decoded("hi",vals)
+# print(ans)
