@@ -53,7 +53,7 @@ def gen_password(f_type,code_len):
 
 # this adds the password to the codes file
 if os.path.exists("./secure/password.codes"):
-	passer = open("./secure/master.key","r").read()
+	# passer = open("./secure/master.key","r").read()
 	ye = 1
 	while ye:
 		h = blake2b()
@@ -88,5 +88,5 @@ else:
 	with open("./secure/master.key","w+") as key:
 		key.write(h.hexdigest())
 	print(code)
-	print("Since this is the first time you are running this generator"+"This is the master password, Remember this because without this all your passwords are lost and unretrievable")
-	print("\n from now on you will need to type your password to generate and encode them")
+	print("Since this is the first time you are running this generator"+"This is the master password,\n Remember this because without this all your passwords are lost and unretrievable")
+	print("\n from now on you will need to type your password to generate or save and encode them")
