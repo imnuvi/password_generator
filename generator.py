@@ -20,7 +20,7 @@ hasher = "hi"
 def gen_password(f_type,code_len):
 	#f_type is the dictionary to use, ("1","2","3") change variable to whatever you want if you have specific language requirements
 	# 2 and 3 are actually pretty small words but are slightly unintelligible. use 1 if you want to remember words
-	
+
 	# code_len gives the length of password to be created as second argument
 
 	filename = "./dictionaries/wordlist_" + f_type + ".txt"
@@ -53,7 +53,7 @@ def gen_password(f_type,code_len):
 
 # this adds the password to the codes file
 if os.path.exists("./secure/password.codes"):
-	# passer = open("./secure/master.key","r").read()
+	passer = open("./secure/master.key","r").read()
 	ye = 1
 	while ye:
 		h = blake2b()
